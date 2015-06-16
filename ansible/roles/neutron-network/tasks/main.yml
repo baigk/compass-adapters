@@ -20,6 +20,16 @@
     - neutron-l3-agent
     - neutron-dhcp-agent
 
+- name: generate neutron service list
+  shell: echo {{ item }} >> /opt/service
+  with_items:
+    - openvswitch-switch
+    - neutron-l3-agent
+    - neutron-dhcp-agent
+    - neutron-plugin-openvswitch-agent
+    - neutron-metadata-agent
+    - xorp
+
 - name: install neutron openvswitch agent
   apt: name=neutron-plugin-openvswitch-agent
        state=present force=yes
@@ -99,6 +109,6 @@
   when: "'opendaylight' in {{ NEUTRON_MECHANISM_DRIVERS }}"
 
 - name: restart ovs service
-  service: name=openvswitch-switch state=restarted
+  service: name=openvswitch-switch state=restarted enabled=yes
 
 - meta: flush_handlers

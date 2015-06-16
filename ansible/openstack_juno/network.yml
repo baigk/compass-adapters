@@ -3,5 +3,6 @@
   remote_user: vagrant
   sudo: True
   roles:
+    - repo
     - common
     - neutron-network

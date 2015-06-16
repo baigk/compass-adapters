@@ -1,17 +1,8 @@
 ---
-- name: first update pkgs
-  apt: update_cache=yes
-
 - name: install ubuntu-cloud-keyring(ubuntu)
   apt: name={{ item }} state=latest
   with_items:
     - ubuntu-cloud-keyring
-
-- name: add juno cloudarchive
-  apt_repository: repo="{{ juno_cloud_archive }}" state=present
-
-- name: update packages once
-  apt: update_cache=yes 
 
 - name: update hosts files to all hosts
   template: src=hosts
@@ -26,13 +17,12 @@
     - python-mysqldb
     - ntp
 
+- name: restart ntp
+  command: su -s /bin/sh -c "service ntp stop; ntpd -gq; hwclock --systohc"
+  ignore_errors: True
+
 - name: update ntp conf
   template: src=ntp.conf dest=/etc/ntp.conf backup=yes
-  notify:
-    - restart ntp
 
-- name: update pip
-  pip: name={{ item }} state=latest
-  with_items:
-    - pip
-
+- name: restart ntp
+  service: name=ntp state=restarted enabled=yes

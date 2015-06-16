@@ -24,7 +24,7 @@
             backup=yes
 
 - name: restart apache2
-  service: name=apache2 state=restarted
+  service: name=apache2 state=restarted enabled=yes
 
 - name: restart memcached
-  service: name=memcached state=restarted
+  service: name=memcached state=restarted enabled=yes

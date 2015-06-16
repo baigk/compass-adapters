@@ -5,6 +5,11 @@
     - cinder-volume
     - lvm2
 
+- name: generate cinder volume service list
+  shell: echo {{ item }} >> /opt/service
+  with_items:
+    - cinder-volume
+
 - name: check if physical device exists
   stat: path={{ physical_device }}
   register: st
@@ -48,4 +53,3 @@
             backup=yes
   notify:
      - restart cinder-volume
-     - restart tgt

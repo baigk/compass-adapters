@@ -20,6 +20,11 @@
     - openvswitch-datapath-dkms
     - openvswitch-switch
 
+- name: generate neutron computer service list
+  shell: echo {{ item }} >> /opt/service
+  with_items:
+    - neutron-plugin-openvswitch-agent
+
 - name: install neutron openvswitch agent
   apt: name=neutron-plugin-openvswitch-agent
        state=present force=yes

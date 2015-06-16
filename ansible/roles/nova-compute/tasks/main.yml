@@ -10,6 +10,11 @@
   notify:
     - restart nova-compute
 
+- name: generate neutron controll service list
+  shell: echo {{ item }} >> /opt/service
+  with_items:
+    - nova-compute
+
 - meta: flush_handlers
 
 - name: remove nova sqlite db
