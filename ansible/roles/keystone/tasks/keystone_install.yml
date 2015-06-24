@@ -26,4 +26,4 @@
     - demo-openrc.sh
 
 - name: manually start keystone
-  service: name=keystone state=started enabled=yes
+  service: name=keystone state=restarted enabled=yes
