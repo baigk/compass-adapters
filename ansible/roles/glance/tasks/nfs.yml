@@ -1,9 +1,4 @@
 ---
-- name: get nfs server
-  local_action: shell  /sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6| grep "10" -m 1 |awk '{print $2}'|tr -d "addr:"
-  register: ip_info
-  run_once: True
-
 - name: install nfs
   local_action: yum  name=nfs-utils state=present
   run_once: True
@@ -19,7 +14,10 @@
   run_once: True
 
 - name: restart nfs service
-  local_action: service name=nfs state=restarted enabled=yes
+  local_action: service name={{ item }} state=restarted enabled=yes
+  with_items:
+      - rpcbind
+      - nfs
   run_once: True
 
 - name: install nfs comm
@@ -29,13 +27,15 @@
   command: mount
   register: mount_info
 
+- name: get nfs server
+  shell: awk -F'=' '/compass_server/ {print $2}' /etc/compass.conf 
+  register: ip_info
+
 - name: mount image directory
   shell: |
-    mount -t nfs  -onfsvers=3 {{ item }}:/opt/images /var/lib/glance/images
+    mount -t nfs  -onfsvers=3 {{ ip_info.stdout_lines[0] }}:/opt/images /var/lib/glance/images
     sed -i '/\/var\/lib\/glance\/images/d' /etc/fstab
-    echo {{ item }}:/opt/images /var/lib/glance/images/ nfs nfsvers=3 >> /etc/fstab
+    echo {{ ip_info.stdout_lines[0] }}:/opt/images /var/lib/glance/images/ nfs nfsvers=3 >> /etc/fstab
   when: mount_info.stdout.find('images') == -1
-  with_items:
-      ip_info.stdout_lines
   retries: 5
   delay: 3

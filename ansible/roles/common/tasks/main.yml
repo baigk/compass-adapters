@@ -17,6 +17,16 @@
     - python-mysqldb
     - ntp
 
+- name: create pip config directory
+  file: path=~/.pip state=directory
+
+- name: get pip source server addr
+  shell: awk -F'=' '/compass_server/ {print $2}' /etc/compass.conf
+  register: COMPASS_SERVER
+
+- name: update pip.conf
+  template: src=pip.conf dest=~/.pip/pip.conf
+
 - name: restart ntp
   command: su -s /bin/sh -c "service ntp stop; ntpd -gq; hwclock --systohc"
   ignore_errors: True

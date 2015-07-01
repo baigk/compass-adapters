@@ -17,8 +17,12 @@
 - name: place image upload script
   template: src=image_upload.sh dest=/opt/image_upload.sh mode=0744
 
+- name: get image http server
+  shell: awk -F'=' '/compass_server/ {print $2}' /etc/compass.conf
+  register: http_server
+
 - name: download cirros image file
-  get_url: url={{ build_in_image }} dest=/opt/{{ build_in_image_name }}
+  get_url: url="http://{{ http_server.stdout_lines[0] }}/image/{{ build_in_image_name }}"  dest=/opt/{{ build_in_image_name }}
 
 - name: wait for 9292 port to become available
   wait_for: host={{ image_host }} port=9292 delay=5
