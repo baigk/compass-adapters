@@ -9,6 +9,17 @@
             dest=/etc/hosts
             backup=yes
 
+- name: get compass-core hostname
+  local_action: shell hostname
+  register: name
+
+- name: get compass-core addr
+  shell: awk -F'=' '/compass_server/ {print $2}' /etc/compass.conf
+  register: ip
+
+- name: update compass-core name and ip to  hosts files 
+  shell: echo "# compass\n"{{ ip.stdout_lines[0] }} {{ name.stdout_lines[0] }} >> /etc/hosts
+
 - name: install common packages
   apt: name={{ item }} state=latest
   with_items:
