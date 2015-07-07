@@ -3,7 +3,6 @@
   remote_user: root
   sudo: True
   roles:
-      - repo
       - common
       - database
       - mq

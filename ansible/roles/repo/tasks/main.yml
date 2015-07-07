@@ -1,3 +1,0 @@
----
-- name: first update pkgs
-  apt: update_cache=yes

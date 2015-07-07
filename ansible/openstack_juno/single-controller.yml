@@ -1,10 +1,4 @@
 ---
-- hosts: all
-  remote_user: root
-  sudo: true
-  roles:
-    - repo
-
 - hosts: controller
   sudo: True
   roles: 
@@ -36,3 +30,9 @@
     - common
     - nova-compute
     - neutron-compute
+
+- hosts: odl
+  remote_user: root
+  sudo: True
+  roles:
+    - odl

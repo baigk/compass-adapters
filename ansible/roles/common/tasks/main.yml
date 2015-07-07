@@ -1,4 +1,7 @@
 ---
+- name: first update pkgs
+  apt: update_cache=yes
+
 - name: install ubuntu-cloud-keyring(ubuntu)
   apt: name={{ item }} state=latest
   with_items:

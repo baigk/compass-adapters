@@ -3,7 +3,6 @@
   remote_user: root
   sudo: true
   roles:
-    - repo
     - common
 
 - hosts: ha
@@ -34,6 +33,12 @@
     - nova-compute
     - neutron-compute
     - cinder-volume
+
+- hosts: odl
+  remote_user: root
+  sudo: True
+  roles:
+    - odl-cluster
 
 - hosts: all
   remote_user: root

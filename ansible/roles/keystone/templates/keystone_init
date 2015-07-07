@@ -1,7 +1,13 @@
+set -e
+while ! keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-list; do
+    echo "not ready"
+    sleep 1
+done
+echo "keystone is ready"
 # create an administrative user
 
-keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-create --name=admin --pass={{ ADMIN_PASS }} --email=admin@admin.com
 keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 role-create --name=admin
+keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 role-create --name=_member_
 keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-create --name=admin --pass={{ ADMIN_PASS }} --email=admin@admin.com
 keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 tenant-create --name=admin --description="Admin Tenant"
 keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-role-add --user=admin --tenant=admin --role=admin

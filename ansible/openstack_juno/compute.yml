@@ -3,7 +3,6 @@
   remote_user: vagrant
   sudo: True
   roles:
-    - repo
     - common
     - nova-compute
     - neutron-compute

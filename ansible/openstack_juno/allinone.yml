@@ -1,10 +1,4 @@
 ---
-- hosts: all
-  remote_user: root
-  sudo: true
-  roles:
-    - repo
-
 - hosts: controller
   sudo: True
   roles: 
