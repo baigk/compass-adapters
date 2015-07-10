@@ -25,6 +25,7 @@
     - neutron-common
     - neutron-network
     - dashboard
+    - ceph-deploy
 
 - hosts: compute
   remote_user: root
