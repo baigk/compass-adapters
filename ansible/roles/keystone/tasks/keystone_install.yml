@@ -1,11 +1,12 @@
 ---
+- include_vars: "{{ ansible_os_family }}.yml"
+
 - name: install keystone packages
-  apt: name=keystone state=present force=yes
+  action: "{{ ansible_pkg_mgr }} name=keystone state=present force=yes"
 
 - name: generate keystone service list
   shell: echo {{ item }} >> /opt/service
-  with_items:
-    - keystone
+  with_items: services
 
 - name: update keystone conf
   template: src=keystone.conf dest=/etc/keystone/keystone.conf backup=yes

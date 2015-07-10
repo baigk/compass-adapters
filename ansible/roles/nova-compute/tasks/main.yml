@@ -1,6 +1,9 @@
 ---
+- include_vars: "{{ ansible_os_family }}.yml"
+
 - name: install nova-compute related packages
-  apt: name=nova-compute-kvm state=present force=yes
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present force=yes"
+  with_items: packages
 
 - name: update nova-compute conf
   template: src={{ item }} dest=/etc/nova/{{ item }}
@@ -12,8 +15,7 @@
 
 - name: generate neutron controll service list
   shell: echo {{ item }} >> /opt/service
-  with_items:
-    - nova-compute
+  with_items: services
 
 - meta: flush_handlers
 

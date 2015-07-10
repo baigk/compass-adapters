@@ -1,9 +1,7 @@
 ---
 - name: install mysql client and server packages
   apt: name={{ item }} state=present
-  with_items:
-    - python-mysqldb
-    - mysql-server
+  with_items: mysql_packages
 
 - name: create mysql log directy
   file: path=/var/log/mysql state=directory owner=mysql group=mysql mode=0755

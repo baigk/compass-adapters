@@ -1,7 +1,7 @@
 ---
 - hosts: all
   remote_user: root
-  sudo: true
+  sudo: True
   roles:
     - common
 

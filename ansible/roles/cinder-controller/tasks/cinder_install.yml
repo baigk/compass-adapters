@@ -1,16 +1,11 @@
 ---
 - name: install cinder packages
-  apt: name={{ item }} state=present force=yes
-  with_items:
-    - cinder-api
-    - cinder-scheduler
-    - python-cinderclient
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present force=yes"
+  with_items: packages
 
 - name: generate cinder service list
   shell: echo {{ item }} >> /opt/service
-  with_items:
-    - cinder-api
-    - cinder-scheduler
+  with_items: services
 
 - name: upload cinder conf
   template: src=cinder.conf dest=/etc/cinder/cinder.conf

@@ -1,17 +1,13 @@
 ---
+- include_vars: "{{ ansible_os_family }}.yml"
+
 - name: install keepalived xinet haproxy 
-  apt: name={{ item }} state=present
-  with_items:
-    - keepalived
-    - xinetd
-    - haproxy
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
+  with_items: packages
    
 - name: generate ha service list
   shell: echo {{ item }} >> /opt/service
-  with_items:
-    - keepalived
-    - xinetd
-    - haproxy
+  with_items: services
 
 - name: install pexpect
   pip: name=pexpect state=present

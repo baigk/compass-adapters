@@ -1,8 +1,9 @@
 ---
+- include_vars: "{{ ansible_os_family }}.yml"
+
 - name: install opendaylight packages
-  apt: name={{ item }} state=present
-  with_items:
-    - openjdk-7-jdk
+  action: "{{ ansible_pkg_mgr }}  name={{ item }} state=present"
+  with_items: packages
 
 #- name: create odl directories
 #  file:
@@ -78,11 +79,6 @@
 
 - name: Set OpenDaylight as the manager
   command: su -s /bin/sh -c "ovs-vsctl set-manager tcp:{{controller}}:6640;"
-
-- name: Install Crudini
-  apt: name={{ item }} state=present
-  with_items:
-    - crudini
 
 - name: Configure Neutron1
   shell: >

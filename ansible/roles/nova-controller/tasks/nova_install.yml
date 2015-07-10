@@ -1,25 +1,13 @@
 ---
+- include_vars: "{{ ansible_os_family }}.yml"
+
 - name: install nova related packages
-  apt: name={{ item }} state=present force=yes
-  with_items:
-    - nova-api
-    - nova-cert
-    - nova-conductor
-    - nova-consoleauth
-    - nova-novncproxy
-    - nova-scheduler
-    - python-novaclient
-    - python-oslo.rootwrap
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present force=yes"
+  with_items: packages
 
 - name: generate nova controll service list
   shell: echo {{ item }} >> /opt/service
-  with_items:
-    - nova-api
-    - nova-cert
-    - nova-conductor
-    - nova-consoleauth
-    - nova-novncproxy
-    - nova-scheduler
+  with_items: services
 
 - name: update nova conf
   template: src=nova.conf

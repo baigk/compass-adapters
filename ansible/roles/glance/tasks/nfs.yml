@@ -1,4 +1,8 @@
 ---
+- name: install packages 
+  action: "{{ ansible_pkg_mgr }} name=nfs-common state=present"
+  with_items: nfs-packages
+
 - name: install nfs
   local_action: yum  name=nfs-utils state=present
   run_once: True
@@ -19,9 +23,6 @@
       - rpcbind
       - nfs
   run_once: True
-
-- name: install nfs comm
-  apt: name=nfs-common state=present
 
 - name: get mount info
   command: mount

@@ -1,4 +1,5 @@
 ---
+- include_vars: "{{ ansible_os_family }}.yml"
 
 - name: activate ipv4 forwarding
   sysctl: name=net.ipv4.ip_forward value=1
@@ -13,21 +14,17 @@
           value=0 state=present reload=yes
 
 - name: install compute-related neutron packages
-  apt: name={{ item }} state=present force=yes
-  with_items:
-    - neutron-common
-    - neutron-plugin-ml2
-    - openvswitch-datapath-dkms
-    - openvswitch-switch
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present force=yes"
+  with_items: packages
+
+- name: install neutron openvswitch agent
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present force=yes"
+  with_items: neutron_plugin_openvswitch_agent_packages
+  when: "'opendaylight' not in {{ NEUTRON_MECHANISM_DRIVERS }}"
 
 - name: generate neutron computer service list
   shell: echo {{ item }} >> /opt/service
-  with_items:
-    - neutron-plugin-openvswitch-agent
-
-- name: install neutron openvswitch agent
-  apt: name=neutron-plugin-openvswitch-agent
-       state=present force=yes
+  with_items: neutron-plugin-openvswitch-agent-services
   when: "'opendaylight' not in {{ NEUTRON_MECHANISM_DRIVERS }}"
 
 - name: config neutron
