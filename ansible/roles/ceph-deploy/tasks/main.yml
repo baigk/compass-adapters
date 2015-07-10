@@ -1,5 +1,5 @@
 ---
-- include: ceph_deploy.yml
+- include: ceph_setup_env.yml
   when: HA_CLUSTER is not defined or HA_CLUSTER[inventory_hostname] == ''
   tags:
     - ceph_deploy 
