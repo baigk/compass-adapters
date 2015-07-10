@@ -1,0 +1,10 @@
+---
+- include: ceph_deploy.yml
+  when: HA_CLUSTER is not defined or HA_CLUSTER[inventory_hostname] == ''
+  tags:
+    - ceph_deploy 
+
+#- include: rabbitmq.yml
+
+#- include: rabbitmq_cluster.yml
+#  when: HA_CLUSTER is defined
