@@ -3,8 +3,3 @@
   when: inventory_hostname == "host1"
   tags:
     - ceph_deploy 
-
-#- include: rabbitmq.yml
-
-#- include: rabbitmq_cluster.yml
-#  when: HA_CLUSTER is defined
