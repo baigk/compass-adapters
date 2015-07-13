@@ -1,5 +1,5 @@
 ---
 - include: ceph_setup_env.yml
-  when: inventory_hostname == "host1"
+  when: inventory_hostname == "{{ groups['controller'][0] }}"
   tags:
     - ceph_deploy 
