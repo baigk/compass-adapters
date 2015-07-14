@@ -1,10 +1,17 @@
 ---
 - include: ceph_setup_env.yml
-  when: HA_CLUSTER is not defined or HA_CLUSTER[inventory_hostname] == ''
+  when: inventory_hostname == "{{ groups['controller'][0] }}"
   tags:
     - ceph_deploy 
 
-#- include: rabbitmq.yml
+- include: ceph_install.yml
+  when: inventory_hostname == "{{ groups['controller'][0] }}"
+  tags:
+    - ceph_deploy
+    - ceph_install
 
-#- include: rabbitmq_cluster.yml
-#  when: HA_CLUSTER is defined
+- name: test_ceph
+  shell: echo {{ groups['controller'][0] }} {{ groups['controller'] }}
+  when: inventory_hostname == "{{ groups['controller'][0] }}"
+  tags:
+    - test_ceph

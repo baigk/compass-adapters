@@ -93,8 +93,6 @@ wget
 yum-plugin-priorities
 json-c
 libestr
-libgt
-liblogging
 rsyslog
 parted
 #if $os_version == "rhel7"
