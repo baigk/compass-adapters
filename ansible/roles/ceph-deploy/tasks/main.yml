@@ -16,8 +16,3 @@
     - ceph_deploy
     - ceph_openstack_pre
 
-- name: test_ceph
-  shell: echo {{ groups['controller'][0] }} {{ groups['controller'] }}
-  when: inventory_hostname == "{{ groups['controller'][0] }}"
-  tags:
-    - test_ceph

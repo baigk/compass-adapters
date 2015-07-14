@@ -19,23 +19,21 @@
     - echo_hosts
 
 - name: create ceph cluster
-  shell: cd {{ ceph_cluster_dir }} && ceph-deploy new {{ ceph_cluster_hosts.stdout_lines[0] }}
-  with_items:
-    - "{{ groups['controller'] }}"
+  shell: cd {{ ceph_cluster_dir[0] }} && ceph-deploy new {{ ceph_cluster_hosts.stdout_lines[0] }}
   tags:
     - create_ceph_cluster
 
 - name: install ceph for every nodes includes jumpserver
-  shell: cd {{ ceph_cluster_dir }} && ceph-deploy install {{ ceph_cluster_hosts.stdout_lines[0]}}
+  shell: cd {{ ceph_cluster_dir[0] }} && ceph-deploy install {{ ceph_cluster_hosts.stdout_lines[0]}}
 
 - name: create monitor node in controller group
-  shell: cd {{ ceph_cluster_dir }} && ceph-deploy --overwrite-conf mon create {{ ceph_cluster_hosts.stdout_lines[0] }}
+  shell: cd {{ ceph_cluster_dir[0] }} && ceph-deploy --overwrite-conf mon create {{ ceph_cluster_hosts.stdout_lines[0] }}
 
 - name: gather keys from mon nodes
-  shell: cd {{ ceph_cluster_dir }} && ceph-deploy gatherkeys {{ ceph_cluster_hosts.stdout_lines[0] }}
+  shell: cd {{ ceph_cluster_dir[0] }} && ceph-deploy gatherkeys {{ ceph_cluster_hosts.stdout_lines[0] }}
 
 - name: create admin node
-  shell: cd {{ ceph_cluster_dir }} && ceph-deploy admin {{ ceph_cluster_hosts.stdout_lines[0] }}
+  shell: cd {{ ceph_cluster_dir[0] }} && ceph-deploy admin {{ ceph_cluster_hosts.stdout_lines[0] }}
 
 - name: copy create_osd.sh to host1
   copy: src=create_osd.sh dest=~/create_osd.sh mode=0777
@@ -57,7 +55,7 @@
     - create_osd
 
 - name: prepare create osd
-  shell: cd {{ ceph_cluster_dir }} && ceph-deploy --overwrite-conf osd prepare {{ item }}:/var/local/osd
+  shell: cd {{ ceph_cluster_dir[0] }} && ceph-deploy --overwrite-conf osd prepare {{ item }}:/var/local/osd
   with_items:
     - "{{ groups['controller'] }}"
   tags:
@@ -65,7 +63,7 @@
 
 
 - name: activate osd
-  shell: cd {{ ceph_cluster_dir }} && ceph-deploy osd activate {{ item }}:/var/local/osd
+  shell: cd {{ ceph_cluster_dir[0] }} && ceph-deploy osd activate {{ item }}:/var/local/osd
   with_items:
     - "{{ groups['controller'] }}"
   tags:
