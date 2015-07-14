@@ -7,7 +7,7 @@
 - name: echo hosts name to file
   shell: echo -n "{{ item }} " >> cluster_hosts_name
   with_items:
-    - "{{ groups['controller'] }}"
+    - "{{ groups['all'] }}"
   tags:
     - create_ceph_cluster
 
@@ -29,7 +29,7 @@
   shell: cd {{ ceph_cluster_dir }} && ceph-deploy install {{ ceph_cluster_hosts.stdout_lines[0]}}
 
 - name: create monitor node in controller group
-  shell: cd {{ ceph_cluster_dir }} && ceph-deploy mon create {{ ceph_cluster_hosts.stdout_lines[0] }}
+  shell: cd {{ ceph_cluster_dir }} && ceph-deploy --overwrite-conf mon create {{ ceph_cluster_hosts.stdout_lines[0] }}
 
 - name: gather keys from mon nodes
   shell: cd {{ ceph_cluster_dir }} && ceph-deploy gatherkeys {{ ceph_cluster_hosts.stdout_lines[0] }}
