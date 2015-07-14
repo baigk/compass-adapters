@@ -3,3 +3,15 @@
   when: inventory_hostname == "{{ groups['controller'][0] }}"
   tags:
     - ceph_deploy 
+
+- include: ceph_install.yml
+  when: inventory_hostname == "{{ groups['controller'][0] }}"
+  tags:
+    - ceph_deploy
+    - ceph_install
+
+- name: test_ceph
+  shell: echo {{ groups['controller'][0] }} {{ groups['controller'] }}
+  when: inventory_hostname == "{{ groups['controller'][0] }}"
+  tags:
+    - test_ceph

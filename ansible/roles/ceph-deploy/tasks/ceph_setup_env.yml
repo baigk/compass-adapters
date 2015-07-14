@@ -33,7 +33,7 @@
 #    - host3
 #    - host4
 #    - host5
-  
+
 - name: create source list from template
   template: src=sources_aliyun.list dest=~/sources.list mode=0755
 
@@ -45,6 +45,8 @@
   shell: scp -o StrictHostKeyChecking=no /etc/apt/sources.list {{ item }}:/etc/apt/sources.list
   with_items:
     - "{{ groups['all'] }}"
+  tags:
+    - test_ceph_copy_sources
 
 - name: update and install dependency libs
   shell: ssh -o StrictHostKeyChecking=no -t {{ item }} "apt-get clean && apt-get update && apt-get install python-flask libgoogle-perftools4 libleveldb1 liblttng-ust0 libsnappy1 librbd1 librados2 python-ceph"

@@ -52,3 +52,5 @@ internal_ip: "{{ hostvars[inventory_hostname][internal_interface]['ipv4']['addre
 odl_username: admin
 odl_password: admin
 odl_api_port: 8080
+
+ceph_cluster_dir: ~/ceph-cluster
