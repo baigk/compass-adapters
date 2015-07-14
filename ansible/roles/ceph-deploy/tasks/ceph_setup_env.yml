@@ -33,7 +33,7 @@
 #    - host3
 #    - host4
 #    - host5
-  
+
 - name: create source list from template
   template: src=sources_aliyun.list dest=~/sources.list mode=0755
 
