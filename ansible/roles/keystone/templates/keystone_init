@@ -4,20 +4,18 @@ while ! keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:
     sleep 1
 done
 echo "keystone is ready"
+
 # create an administrative user
 
 keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 role-create --name=admin
-keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 role-create --name=_member_
-keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-create --name=admin --pass={{ ADMIN_PASS }} --email=admin@admin.com
 keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 tenant-create --name=admin --description="Admin Tenant"
+keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-create --name=admin --pass={{ ADMIN_PASS }} --tenant=admin --email=admin@admin.com
 keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-role-add --user=admin --tenant=admin --role=admin
-keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-role-add --user=admin --role=_member_ --tenant=admin
 
 # create a normal user
 
-keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-create --name=demo --pass={{ DEMO_PASS }} --email=DEMO_EMAIL
 keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 tenant-create --name=demo --description="Demo Tenant"
-keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-role-add --user=demo --role=_member_ --tenant=demo
+keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 user-create --name=demo --pass={{ DEMO_PASS }} --tenant=demo --email=DEMO_EMAIL
 
 # create a service tenant
 keystone --os-token={{ ADMIN_TOKEN }} --os-endpoint=http://{{ HA_VIP }}:35357/v2.0 tenant-create --name=service --description="Service Tenant"
