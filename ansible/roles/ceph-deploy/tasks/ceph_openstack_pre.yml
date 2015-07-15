@@ -23,6 +23,13 @@
   tags:
     - ceph_send_key
 
+- name: copy cinder key to compute node
+  shell: ceph auth get-key client.cinder | ssh {{ item }} tee client.cinder.key
+  with_items:
+    - "{{ groups['compute'] }}"
+  tags:
+    - ceph_copy_secret
+
 - name: gen ceph uuid
   shell: uuidgen
   register: ceph_uuid
@@ -42,7 +49,7 @@
     - ceph_copy_secret
 
 - name: create key for libvirt on compute nodes
-  shell: ssh -o StrictHostKeyChecking=no -t {{ item }} "virsh secret-define --file secret.xml && virsh secret-set-value --secret {{ ceph_uuid.stdout_lines[0] }} --base64 \$(cat /etc/ceph/ceph.client.cinder.keyring) && rm secret.xml"
+  shell: ssh -o StrictHostKeyChecking=no -t {{ item }} "virsh secret-define --file secret.xml && virsh secret-set-value --secret {{ ceph_uuid.stdout_lines[0] }} --base64 \$(cat client.cinder.key) && rm client.cinder.key secret.xml"
   with_items:
     - "{{ groups['compute'] }}"
   tags:
