@@ -15,4 +15,11 @@
   tags:
     - ceph_deploy
     - ceph_openstack_pre
+    - ceph_openstack
 
+- include: ceph_openstack_conf.yml
+  when: inventory_hostname == "{{ groups['controller'][0] }}"
+  tags:
+    - ceph_deploy
+    - ceph_openstack_conf
+    - ceph_openstack
