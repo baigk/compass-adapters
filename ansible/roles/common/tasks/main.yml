@@ -2,7 +2,7 @@
 - include_vars: "{{ ansible_os_family }}.yml"
 
 - name: first update pkgs
-  apt: update_cache=yes
+  shell: "{{ ansible_pkg_mgr }} update"
 
 - name: install packages
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=latest"
@@ -43,3 +43,4 @@
 
 - name: restart ntp
   service: name=ntp state=restarted enabled=yes
+
