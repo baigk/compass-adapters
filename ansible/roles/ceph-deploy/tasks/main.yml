@@ -3,6 +3,7 @@
   when: inventory_hostname == "{{ groups['controller'][0] }}"
   tags:
     - ceph_deploy 
+    - ceph_setup_env
 
 - include: ceph_install.yml
   when: inventory_hostname == "{{ groups['controller'][0] }}"

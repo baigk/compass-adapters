@@ -7,14 +7,14 @@
 #- name: update and install ceph-deploy
 #  shell:  sudo yum update && sudo yum -y install ceph-deploy
 
-- name: update ceph repo
-  shell: wget -q -O- 'https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc' | sudo apt-key add -
+#- name: update ceph repo
+#  shell: wget -q -O- 'https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc' | sudo apt-key add -
 
-- name: echo ceph source list
-  shell: echo deb http://ceph.com/debian-dumpling/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list
+#- name: echo ceph source list
+#  shell: echo deb http://ceph.com/debian-dumpling/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list
 
 - name: update and install ceph-deploy
-  shell: sudo apt-get update && sudo apt-get install ceph-deploy
+  shell: sudo apt-get install ceph-deploy
 
 - name: copy rsa secret key from compass-core to host1
   copy: src=/root/.ssh/id_rsa dest=/root/.ssh/id_rsa mode=0600
