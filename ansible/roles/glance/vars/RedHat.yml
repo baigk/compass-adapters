@@ -1,11 +1,11 @@
 ---
-glance_packages:
-  - glance
-  - python-glanceclient
+packages:
+  - openstack-glance
 
-glance_services:
-  - glance-registry
-  - glance-api
+nfs_packages:
+  - nfs-utils
+  - rpcbind
 
-nfs-packages:
-  - nfs-common 
+services:
+  - openstack-glance-api
+  - openstack-glance-registry

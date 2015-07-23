@@ -2,3 +2,5 @@
 packages:
   - openjdk-7-jdk
   - crudini
+
+services: []

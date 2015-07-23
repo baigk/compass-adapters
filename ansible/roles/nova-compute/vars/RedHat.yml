@@ -1,7 +1,8 @@
 ---
 packages:
-  - nova-compute-kvm
+  - openstack-nova-compute
+  - sysfsutils
 
 services:
-  - nova-compute
-
+  - libvirtd
+  - openstack-nova-compute

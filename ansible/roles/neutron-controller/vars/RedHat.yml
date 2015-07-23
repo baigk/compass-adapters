@@ -1,8 +1,7 @@
 ---
 packages:
-  - neutron-server
-  - neutron-plugin-ml2
+  - openstack-neutron
+  - openstack-neutron-ml2
+
 services:
   - neutron-server
-  - neutron-plugin-ml2
-

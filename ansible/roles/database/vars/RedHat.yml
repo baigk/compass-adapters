@@ -4,9 +4,13 @@ mysql_packages:
   - mysql-server
 
 maridb_packages:
-  - libaio1
-  - libssl0.9.8
-  - mysql-client-5.5
-  - python-mysqldb
-  - mysql-server-wsrep
+  - MariaDB-client
+  - MariaDB-server
   - galera
+
+services: []
+
+mysql_config_file_path: "/etc/my.cnf.d"
+mysql_config_file_name: ["my-huge.cnf", "server.cnf"]
+wsrep_config_file_path: "/etc/my.cnf.d"
+wsrep_provider_file: "/usr/lib64/galera/libgalera_smm.so"

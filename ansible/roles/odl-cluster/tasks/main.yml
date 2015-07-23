@@ -16,7 +16,7 @@
 #    group: root
 #    owner: root
 #    mode: 0755
-   
+
 - name: create odl group
   group: name=odl system=yes state=present
 
