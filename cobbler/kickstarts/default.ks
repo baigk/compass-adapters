@@ -95,6 +95,9 @@ json-c
 libestr
 rsyslog
 parted
+vim
+lsof
+strace
 #if $os_version == "rhel7"
 net-tools
 #end if

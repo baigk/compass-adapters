@@ -530,7 +530,7 @@ for key in \${sorted_partitions[@]}; do
     if [[ x"\${partition_size}" != x"" ]]; then
         size_param="--size=\${partition_size}"
     else
-        size_param="--size=1"
+        size_param=""
     fi
     partition_maxsize=\${partitions_maxsize[\$key]}
     if [[ x"\${partition_maxsize}" != x"" ]]; then
