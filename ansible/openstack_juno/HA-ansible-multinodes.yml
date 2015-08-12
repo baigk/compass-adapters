@@ -38,7 +38,7 @@
   remote_user: root
   sudo: True
   roles:
-    - odl-cluster
+    - odl_cluster
 
 - hosts: all
   remote_user: root
